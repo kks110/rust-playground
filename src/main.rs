@@ -5,16 +5,27 @@ use std::cmp::Ordering;
 use rand::Rng;
 
 fn main() {
-    println!("Welcome, what would you like to do?:");
-    println!("1) Guessing Game");
-    println!("2) Convert temperatures");
+    loop {
+        println!("Welcome, what would you like to do?:");
+        println!("1) Guessing Game");
+        println!("2) Convert temperatures");
+        println!("3) Fibonacci");
 
-    let option = get_user_input();
+        let option = get_user_input();
 
-    if option == "1" {
-        guessing_game()
-    } else if option == "2" {
-        temp_converter()
+        if option == "1" {
+            guessing_game();
+            break
+        } else if option == "2" {
+            temp_converter();
+            break
+        } else if option == "3" {
+            fibonacci();
+            break
+        } else {
+            println!("Not a valid option, please try again.");
+            continue
+        }
     }
 }
 
@@ -34,30 +45,56 @@ fn get_user_input() -> String {
     input.to_string()
 }
 
-fn temp_converter() {
-    println!("Welcome, what would you like to do?:");
-    println!("1) Convert to Fahrenheit ");
-    println!("2) Convert to Celsius");
-
-    let option = get_user_input();
-
-    println!("What temp would you like to convert?: ");
-    let temp = get_user_input();
-
-    let temp: f32 = loop {
-        match temp.trim().parse() {
+fn get_user_input_float() -> f32 {
+    let input = loop {
+        match get_user_input().trim().parse() {
             Ok(num) => break num,
             Err(_) => {
                 println!("Please enter a number");
                 continue
             },
-        }
+        };
     };
+    input
+}
 
-    if option == "1" {
-        println!("Your temp in fahrenheit is {}", convert_to_fahrenheit(temp));
-    } else if option == "2" {
-        println!("Your temp in celsius is {}", convert_to_celsius(temp));
+fn get_user_input_unumber() -> u32 {
+    let input = loop {
+        match get_user_input().trim().parse() {
+            Ok(num) => break num,
+            Err(_) => {
+                println!("Please enter a number");
+                continue
+            },
+        };
+    };
+    input
+}
+
+fn temp_converter() {
+    loop {
+        println!("Welcome, what would you like to do?:");
+        println!("1) Convert to Fahrenheit ");
+        println!("2) Convert to Celsius");
+
+
+        let option = get_user_input();
+
+        if option != "1" && option != "2" {
+            println!("Not a valid option, please try again.");
+            continue
+        };
+
+        println!("What temp would you like to convert?: ");
+        let temperature: f32 = get_user_input_float();
+
+        if option == "1" {
+            println!("Your temp in fahrenheit is {}", convert_to_fahrenheit(temperature));
+            break
+        } else if option == "2" {
+            println!("Your temp in celsius is {}", convert_to_celsius(temperature));
+            break
+        }
     }
 }
 
@@ -80,15 +117,7 @@ fn guessing_game() {
     loop {
         println!("Please input your guess.");
 
-        let guess = get_user_input();
-
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-                println!("Please enter a number");
-                continue
-            },
-        };
+        let guess: u32 = get_user_input_unumber();
 
         println!("You guessed {}", guess);
 
@@ -100,5 +129,19 @@ fn guessing_game() {
                 break;
             },
         }
+    }
+}
+
+fn fibonacci() {
+    println!("How many Fibonacci numbers would you like to see?");
+    let nth = get_user_input_unumber();
+    let mut previous: u128 = 0;
+    let mut current: u128 = 1;
+    let mut next: u128;
+    for i in 0..nth {
+        println!("{}: {}", i+1, current);
+        next = previous + current;
+        previous = current.clone();
+        current = next;
     }
 }
