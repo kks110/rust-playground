@@ -10,6 +10,7 @@ fn main() {
         println!("1) Guessing Game");
         println!("2) Convert temperatures");
         println!("3) Fibonacci");
+        println!("4) Twelve Days of Christmas");
 
         let option = get_user_input();
 
@@ -21,6 +22,9 @@ fn main() {
             break
         } else if option == "3" {
             fibonacci();
+            break
+        } else if option == "4"  {
+            twelve_days_of_christmas();
             break
         } else {
             println!("Not a valid option, please try again.");
@@ -144,4 +148,51 @@ fn fibonacci() {
         previous = current.clone();
         current = next;
     }
+}
+
+fn twelve_days_of_christmas() {
+    let days = [
+        "first",
+        "second",
+        "third",
+        "fourth",
+        "fifth",
+        "sixth",
+        "seventh",
+        "eighth",
+        "ninth",
+        "tenth",
+        "eleventh",
+        "twelfth"
+    ];
+
+    let items = [
+        "And a partridge in a pear tree",
+        "Two turtle doves",
+        "Three French hens",
+        "Four calling birds",
+        "Five gold rings, badam-pam-pam",
+        "Six geese a laying",
+        "Seven swans a swimming",
+        "Eight maids a milking",
+        "Nine ladies dancing",
+        "Ten lords a leaping",
+        "Eleven pipers piping",
+        "Twelve drummers drumming"
+    ];
+
+    for i in 0..days.len() {
+        println!();
+        println!("On the {} day of christmas", days[i]);
+        println!("My true love gave to me:");
+        if i == 0 {
+            println!("A partridge in a pear tree")
+        } else {
+            for j in 0..i {
+                println!("{}", items[i-j]);
+            }
+            println!("{}", items[0]);
+        }
+    }
+
 }
